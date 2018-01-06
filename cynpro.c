@@ -7,7 +7,8 @@
 #include <libusb.h>
 
 #define USB_VID 0x1532
-#define USB_PID 0x020d
+#define USB_PID_PRO 0x020d
+#define USB_PID 0x022a
 #define USB_IFACE 2
 
 enum
@@ -221,7 +222,7 @@ void inspect_device(libusb_device* dev)
   struct libusb_device_descriptor desc;
   if (libusb_get_device_descriptor(dev, &desc) != 0)
     return;
-  if (desc.idVendor == USB_VID && desc.idProduct == USB_PID)
+  if (desc.idVendor == USB_VID && (desc.idProduct == USB_PID || USB_PID_PRO))
   {
     device_found = 1;
     open_device(dev);
