@@ -43,6 +43,8 @@ long cmd_led_intensity = -1;
 void led_color_rgb(libusb_device_handle* dev_h,
                   uint8_t r, uint8_t g, uint8_t b)
 {
+  printf("DEBUG R:%u, G:%u, B:%u\n", r, g, b);
+
   uint8_t buf[] = {
     0x00,0xFF,0x00,0x00,0x00,0x05,0x03,0x01,0x01,
     0x05,   r,   g,   b,0x00,0x00,0x00,0x00,0x00,
@@ -58,7 +60,8 @@ void led_color_rgb(libusb_device_handle* dev_h,
   for (size_t i = 2; i < 88; i++)
     buf[88] ^= buf[i];
 
-  libusb_control_transfer(dev_h, 33, 9, 768, 2, buf, sizeof(buf), 0);
+  int response = libusb_control_transfer(dev_h, 33, 9, 768, 2, buf, sizeof(buf), 0);
+  printf("DEBUG LED Color Response: %d\n", response);
 }
 
 void led_color(libusb_device_handle* dev_h, int cmd)
@@ -86,6 +89,8 @@ void led_intensity(libusb_device_handle* dev_h,
 
   uint8_t v = intensity;
 
+  printf("DEBUG Intensity: %u\n", v);
+
   uint8_t buf[] = {
     0x00,0xFF,0x00,0x00,0x00,0x03,0x03,0x03,0x01,
     0x05,   v,0x00,0x00,0x00,0x00,0x00,0x00,0x00,
@@ -101,7 +106,9 @@ void led_intensity(libusb_device_handle* dev_h,
   for (size_t i = 2; i < 88; i++)
     buf[88] ^= buf[i];
 
-  libusb_control_transfer(dev_h, 33, 9, 768, 2, buf, sizeof(buf), 0);
+  int response = libusb_control_transfer(dev_h, 33, 9, 768, 2, buf, sizeof(buf), 0);
+  printf("DEBUG LED Intensity Response: %d\n", response);
+
 }
 
 void led_switch(libusb_device_handle* dev_h, int cmd)
@@ -124,10 +131,12 @@ void led_switch(libusb_device_handle* dev_h, int cmd)
   if (cmd == CMD_LED_ON)
     buf[10] = 0x01;
 
+  // Second last byte is a checksum, calc by XORing
   for (size_t i = 2; i < 88; i++)
     buf[88] ^= buf[i];
 
-  libusb_control_transfer(dev_h, 33, 9, 768, 2, buf, sizeof(buf), 0);
+  int response = libusb_control_transfer(dev_h, 33, 9, 768, 2, buf, sizeof(buf), 0);
+  printf("DEBUG LED Switch Response: %d\n", response);
 }
 
 void led_breathing_color_pattern(libusb_device_handle* dev_h)
@@ -144,6 +153,7 @@ void led_breathing_color_pattern(libusb_device_handle* dev_h)
     0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,
     0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00};
 
+  // Second last byte is a checksum, calc by XORing
   for (size_t i = 2; i < 88; i++)
     buf[88] ^= buf[i];
 
@@ -178,6 +188,7 @@ void led_breathing(libusb_device_handle* dev_h, uint8_t cmd)
     break;
   }
 
+  // Second last byte is a checksum, calc by XORing
   for (size_t i = 2; i < 88; i++)
     buf[88] ^= buf[i];
 
@@ -338,14 +349,19 @@ int parse_options(int argc, char** argv)
 
 int main(int argc, char** argv)
 {
+  // Check for errors in parsing
   if (parse_options(argc, argv) != 0)
     return 1;
 
+  // Check for device errors
   if (libusb_init(NULL) != 0)
   {
     printf("Unable to initialize libusb\n");
     return 1;
   }
+
+  // Change to LIBUSB_LOG_LEVEL_WARNING for standard usage
+  // LIBUSB_LOG_LEVEL_DEBUG is verbose
   libusb_set_debug(NULL, LIBUSB_LOG_LEVEL_WARNING);
   int ret = walk_devices();
   libusb_exit(NULL);

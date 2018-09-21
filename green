@@ -1,0 +1,34 @@
+[timestamp] [threadID] facility level [function call] <message>
+--------------------------------------------------------------------------------
+[ 0.005696] [00004ea3] libusb: debug [libusb_get_device_list]
+[ 0.005720] [00004ea3] libusb: debug [discovered_devs_append] need to increase capacity
+[ 0.005726] [00004ea3] libusb: debug [libusb_get_device_descriptor]
+[ 0.005730] [00004ea3] libusb: debug [libusb_get_device_descriptor]
+[ 0.005732] [00004ea3] libusb: debug [libusb_get_device_descriptor]
+[ 0.005735] [00004ea3] libusb: debug [libusb_get_device_descriptor]
+[ 0.005737] [00004ea3] libusb: debug [libusb_get_device_descriptor]
+[ 0.005740] [00004ea3] libusb: debug [libusb_open] open 3.3
+[ 0.005759] [00004ea3] libusb: debug [usbi_add_pollfd] add fd 9 events 4
+[ 0.005772] [00004ea3] libusb: debug [libusb_claim_interface] interface 2
+[ 0.053835] [00004ea3] libusb: debug [libusb_alloc_transfer] transfer 0xda81a8
+[ 0.053851] [00004ea3] libusb: debug [libusb_submit_transfer] transfer 0xda81a8
+[ 0.053869] [00004ea3] libusb: debug [libusb_handle_events_timeout_completed] doing our own event handling
+[ 0.053873] [00004ea3] libusb: debug [handle_events] poll fds modified, reallocating
+[ 0.053878] [00004ea3] libusb: debug [handle_events] poll() 3 fds with timeout in 60000ms
+[ 0.054479] [00004ea3] libusb: debug [handle_events] poll() returned 1
+[ 0.054496] [00004ea3] libusb: debug [reap_for_handle] urb type=2 status=0 transferred=90
+[ 0.054501] [00004ea3] libusb: debug [handle_control_completion] handling completion status 0
+[ 0.054506] [00004ea3] libusb: debug [usbi_handle_transfer_completion] transfer 0xda81a8 has callback 0x7fe3cea05520
+[ 0.054511] [00004ea3] libusb: debug [sync_transfer_cb] actual_length=90
+[ 0.054520] [00004ea3] libusb: debug [libusb_free_transfer] transfer 0xda81a8
+[ 0.054529] [00004ea3] libusb: debug [libusb_release_interface] interface 2
+[ 0.061738] [00004ea3] libusb: debug [libusb_close]
+[ 0.061758] [00004ea3] libusb: debug [usbi_remove_pollfd] remove fd 9
+[ 0.061768] [00004ea3] libusb: debug [libusb_get_device_descriptor]
+[ 0.061772] [00004ea3] libusb: debug [libusb_get_device_descriptor]
+[ 0.061777] [00004ea3] libusb: debug [libusb_get_device_descriptor]
+[ 0.061781] [00004ea3] libusb: debug [libusb_get_device_descriptor]
+[ 0.061785] [00004ea3] libusb: debug [libusb_get_device_descriptor]
+[ 0.061789] [00004ea3] libusb: debug [libusb_get_device_descriptor]
+[ 0.061796] [00004ea3] libusb: debug [libusb_exit]
+[ 0.061801] [00004ea3] libusb: debug [libusb_exit] destroying default context
